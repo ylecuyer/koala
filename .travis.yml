@@ -14,6 +14,6 @@ rvm:
 bundler_args: --without development
 addons:
   code_climate:
-    repo_token: 7af99d9225b4c14640f9ec3cb2e24d2f7103ac49417b0bd989188fb6c25f2909
+    repo_token: e414c2ec611c0f079b1528c526e96035097b2c4fdfdc7cb5f791b93d3f158e6c
 after_success:
     - bundle exec codeclimate-test-reporter
