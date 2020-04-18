@@ -9,6 +9,8 @@ New features:
 
 Updated features:
 
+* Log before sending request and after
+
 Removed features:
 
 Internal improvements:
