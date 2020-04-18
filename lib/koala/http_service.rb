@@ -49,7 +49,15 @@ module Koala
       # set up our Faraday connection
       conn = Faraday.new(request.server, faraday_options(request.options), &(faraday_middleware || DEFAULT_MIDDLEWARE))
 
-      Koala::Utils.debug "STARTED => #{request.verb.upcase}: #{request.path} params: #{request.raw_args.inspect}"
+      filtered_args = request.raw_args.dup
+
+      unless Koala.config.log_tokens
+        if (token = filtered_args['access_token'])
+          filtered_args['access_token'] = token[0, 10] + '*****' + token[-5, 5]
+        end
+      end
+
+      Koala::Utils.debug "STARTED => #{request.verb.upcase}: #{request.path} params: #{filtered_args.inspect}"
 
       if request.verb == "post" && request.json?
         # JSON requires a bit more handling
@@ -65,7 +73,7 @@ module Koala
       end
 
       # Log URL information
-      Koala::Utils.debug "FINISHED => #{request.verb.upcase}: #{request.path} params: #{request.raw_args.inspect}"
+      Koala::Utils.debug "FINISHED => #{request.verb.upcase}: #{request.path} params: #{filtered_args.inspect}"
       Koala::HTTPService::Response.new(response.status.to_i, response.body, response.headers)
     end
 

@@ -7,6 +7,8 @@ Unreleased
 
 New features:
 
+* log_token config (default: false) to mask tokens in logs
+
 Updated features:
 
 * Log before sending request and after
